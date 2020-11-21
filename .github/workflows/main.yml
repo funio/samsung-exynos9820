@@ -41,6 +41,7 @@ jobs:
       run: git clone --depth 1 -j $(nproc) --branch $TOOLCHAIN --single-branch https://github.com/CruelKernel/samsung-exynos9820-toolchain toolchain
     - name: Kernel Configure
       run: |
+        set -e -o pipefail
         ./cruelbuild config                    \
                      model=${{ matrix.model }} \
                      name="Cruel-V3.9"         \
