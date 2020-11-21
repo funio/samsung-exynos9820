@@ -606,7 +606,7 @@ def switch_toolchain(compiler):
                     fatal("Can't checkout to toolchain: " + compiler)
             run(['git', 'submodule', 'foreach', 'git', 'checkout', compiler], check=True)
 
-def build(compiler, threads=1, objtree='.'):
+def build(compiler, objtree='.'):
     env = {}
 
     if compiler == 'system':
@@ -622,8 +622,14 @@ def build(compiler, threads=1, objtree='.'):
     if tool_exists('pbzip2'):
         env['KBZIP2']='pbzip2'
 
+    arg_threads = []
+    if check_env('DEBUG'):
+        arg_threads = ['-j', '1', 'V=1']
+    else:
+        arg_threads = ['-j', str(get_cores_num())]
+
     inotify.run(['make',
-                 '-j', str(threads),
+                 *arg_threads,
                  *{ k + '=' + v for k, v in env.items() }])
 
 def mkbootimg(os_patch_level, seadroid, config, output, **files):
@@ -1174,7 +1180,7 @@ if __name__ == '__main__':
                 magisk_already_updated = True
 
             start = timer()
-            build(compiler, get_cores_num(), objtree)
+            build(compiler, objtree)
             build_time += timer() - start
 
             os.replace(kernel_image, kernel_image + '-' + model)
