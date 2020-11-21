@@ -558,8 +558,9 @@ def config_model(model, config='.config'):
         '--enable', 'CONFIG_MODEL_' + model], check=True)
 
 def make_config(features, configs, model):
-    objtree = os.path.join(CK_DIR, configs.get('O', '.'))
-    config = os.path.join(objtree, 'config.' + model)
+    objtree = configs.get('O', '.')
+    config = os.path.join(os.path.join(CK_DIR, objtree),
+                          'config.' + model)
     set_env(KCONFIG_CONFIG=config)
     args = ['scripts/kconfig/merge_config.sh', '-O', objtree,
             os.path.join('arch/arm64/configs', models[model]['config']),
