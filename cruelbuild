@@ -693,7 +693,7 @@ def mkaptar(boot, vbmeta):
 
 def adb_wait_for_device():
     print('Waiting for the device...')
-    #run(['adb', 'wait-for-device'])
+    run(['adb', 'wait-for-device'])
 
 def heimdall_wait_for_device():
     print('Waiting for download mode...')
