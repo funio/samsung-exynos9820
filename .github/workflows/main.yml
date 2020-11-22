@@ -1,4 +1,4 @@
-name: Build
+name: funios
 
 on: [push]
 
@@ -23,7 +23,7 @@ jobs:
                      model=${{ matrix.model }} \
                      name="Cruel-V3.9"         \
                      toolchain=$TOOLCHAIN      \
-                     +magisk                   \
+                     +magisk+canary            \       \
                      +nohardening              \
                      +ttl                      \
                      +wireguard                \
@@ -32,6 +32,9 @@ jobs:
                      +ntfs                     \
                      +morosound                \
                      +boeffla_wl_blocker       \
+                     +300hz                    \
+                     +1000hz                   \
+                     
         2>&1 | tee config.info
     - name: Install gcc-aarch64-linux-gnu
       env:
